@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "@tanstack/react-router";
-import { Film, Heart, Vote, Sparkles, LogOut, Clapperboard } from "lucide-react";
+import { Film, Heart, LogOut, Clapperboard, Flame } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useAuth } from "@/lib/auth";
 
@@ -7,8 +7,7 @@ const links = [
   { to: "/", label: "Accueil", icon: Film },
   { to: "/timeline", label: "Saison", icon: Clapperboard },
   { to: "/ideas", label: "Idées", icon: Heart },
-  { to: "/vote", label: "Vote final", icon: Vote },
-  { to: "/synthese", label: "Synthèse IA", icon: Sparkles },
+  { to: "/decision", label: "La Décision", icon: Flame },
 ] as const;
 
 export function NavBar() {

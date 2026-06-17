@@ -134,7 +134,7 @@ function Dashboard() {
             Dans 1 mois et demi, vote final, jury de famille élargie, options absurdes garanties.
           </p>
           <Link
-            to="/vote"
+            to="/decision"
             className="inline-block bg-background text-foreground font-bold px-6 py-3 rounded-md hover:scale-105 transition"
           >
             🎟 Préparer mon vote

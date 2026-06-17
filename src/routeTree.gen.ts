@@ -15,8 +15,8 @@ import { Route as AppIndexRouteImport } from './routes/_app.index'
 import { Route as AuthCallbackRouteImport } from './routes/auth.callback'
 import { Route as AppVoteRouteImport } from './routes/_app.vote'
 import { Route as AppTimelineRouteImport } from './routes/_app.timeline'
-import { Route as AppSyntheseRouteImport } from './routes/_app.synthese'
 import { Route as AppIdeasRouteImport } from './routes/_app.ideas'
+import { Route as AppDecisionRouteImport } from './routes/_app.decision'
 import { Route as AppEpisodeEpisodeIdRouteImport } from './routes/_app.episode.$episodeId'
 
 const LoginRoute = LoginRouteImport.update({
@@ -48,14 +48,14 @@ const AppTimelineRoute = AppTimelineRouteImport.update({
   path: '/timeline',
   getParentRoute: () => AppRoute,
 } as any)
-const AppSyntheseRoute = AppSyntheseRouteImport.update({
-  id: '/synthese',
-  path: '/synthese',
-  getParentRoute: () => AppRoute,
-} as any)
 const AppIdeasRoute = AppIdeasRouteImport.update({
   id: '/ideas',
   path: '/ideas',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppDecisionRoute = AppDecisionRouteImport.update({
+  id: '/decision',
+  path: '/decision',
   getParentRoute: () => AppRoute,
 } as any)
 const AppEpisodeEpisodeIdRoute = AppEpisodeEpisodeIdRouteImport.update({
@@ -67,8 +67,8 @@ const AppEpisodeEpisodeIdRoute = AppEpisodeEpisodeIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof AppIndexRoute
   '/login': typeof LoginRoute
+  '/decision': typeof AppDecisionRoute
   '/ideas': typeof AppIdeasRoute
-  '/synthese': typeof AppSyntheseRoute
   '/timeline': typeof AppTimelineRoute
   '/vote': typeof AppVoteRoute
   '/auth/callback': typeof AuthCallbackRoute
@@ -76,8 +76,8 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/login': typeof LoginRoute
+  '/decision': typeof AppDecisionRoute
   '/ideas': typeof AppIdeasRoute
-  '/synthese': typeof AppSyntheseRoute
   '/timeline': typeof AppTimelineRoute
   '/vote': typeof AppVoteRoute
   '/auth/callback': typeof AuthCallbackRoute
@@ -88,8 +88,8 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_app': typeof AppRouteWithChildren
   '/login': typeof LoginRoute
+  '/_app/decision': typeof AppDecisionRoute
   '/_app/ideas': typeof AppIdeasRoute
-  '/_app/synthese': typeof AppSyntheseRoute
   '/_app/timeline': typeof AppTimelineRoute
   '/_app/vote': typeof AppVoteRoute
   '/auth/callback': typeof AuthCallbackRoute
@@ -101,8 +101,8 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/login'
+    | '/decision'
     | '/ideas'
-    | '/synthese'
     | '/timeline'
     | '/vote'
     | '/auth/callback'
@@ -110,8 +110,8 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/login'
+    | '/decision'
     | '/ideas'
-    | '/synthese'
     | '/timeline'
     | '/vote'
     | '/auth/callback'
@@ -121,8 +121,8 @@ export interface FileRouteTypes {
     | '__root__'
     | '/_app'
     | '/login'
+    | '/_app/decision'
     | '/_app/ideas'
-    | '/_app/synthese'
     | '/_app/timeline'
     | '/_app/vote'
     | '/auth/callback'
@@ -180,18 +180,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppTimelineRouteImport
       parentRoute: typeof AppRoute
     }
-    '/_app/synthese': {
-      id: '/_app/synthese'
-      path: '/synthese'
-      fullPath: '/synthese'
-      preLoaderRoute: typeof AppSyntheseRouteImport
-      parentRoute: typeof AppRoute
-    }
     '/_app/ideas': {
       id: '/_app/ideas'
       path: '/ideas'
       fullPath: '/ideas'
       preLoaderRoute: typeof AppIdeasRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/decision': {
+      id: '/_app/decision'
+      path: '/decision'
+      fullPath: '/decision'
+      preLoaderRoute: typeof AppDecisionRouteImport
       parentRoute: typeof AppRoute
     }
     '/_app/episode/$episodeId': {
@@ -205,8 +205,8 @@ declare module '@tanstack/react-router' {
 }
 
 interface AppRouteChildren {
+  AppDecisionRoute: typeof AppDecisionRoute
   AppIdeasRoute: typeof AppIdeasRoute
-  AppSyntheseRoute: typeof AppSyntheseRoute
   AppTimelineRoute: typeof AppTimelineRoute
   AppVoteRoute: typeof AppVoteRoute
   AppIndexRoute: typeof AppIndexRoute
@@ -214,8 +214,8 @@ interface AppRouteChildren {
 }
 
 const AppRouteChildren: AppRouteChildren = {
+  AppDecisionRoute: AppDecisionRoute,
   AppIdeasRoute: AppIdeasRoute,
-  AppSyntheseRoute: AppSyntheseRoute,
   AppTimelineRoute: AppTimelineRoute,
   AppVoteRoute: AppVoteRoute,
   AppIndexRoute: AppIndexRoute,
