@@ -6,7 +6,7 @@ import {
   type UseQueryResult,
 } from "@tanstack/react-query";
 import { useEffect } from "react";
-import { api } from "./api";
+import { api, getVoterId } from "./api";
 import type {
   Episode,
   EpisodeComment,
@@ -45,10 +45,14 @@ const REVIEW_UPSERT_PATH_PREFIX = "/e8f323ae-2f03-42d4-862e-fe88351c3dac/episode
 const COMMENT_LIST_PATH_PREFIX = "/d61c10bd-78ec-4b59-8b6b-7e443191b4c2/episodes";
 const COMMENT_CREATE_PATH_PREFIX = "/4af6bb46-948f-43b2-862d-8a0ac440d688/episodes";
 
+function voteLsKey(): string {
+  return `${VOTE_LS_KEY}_${getVoterId()}`;
+}
+
 function readLocalVotes(): Record<string, string> {
   if (typeof window === "undefined") return {};
   try {
-    const raw = localStorage.getItem(VOTE_LS_KEY);
+    const raw = localStorage.getItem(voteLsKey());
     return raw ? (JSON.parse(raw) as Record<string, string>) : {};
   } catch {
     return {};
@@ -57,7 +61,7 @@ function readLocalVotes(): Record<string, string> {
 
 function writeLocalVotes(map: Record<string, string>): void {
   if (typeof window === "undefined") return;
-  localStorage.setItem(VOTE_LS_KEY, JSON.stringify(map));
+  localStorage.setItem(voteLsKey(), JSON.stringify(map));
 }
 
 function readBuzzIdeaVotes(): Record<string, "like" | "dislike"> {

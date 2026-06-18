@@ -68,6 +68,13 @@ function getDeviceId(): string {
   return id;
 }
 
+export function getVoterId(): string {
+  const session = readSession();
+  if (!session?.user) return "anon";
+  const isFriend = FRIEND_ROLES.includes(session.user.role);
+  return isFriend ? getDeviceId() : session.user.id;
+}
+
 async function request<T>(
   method: "GET" | "POST" | "PATCH" | "DELETE",
   path: string,
