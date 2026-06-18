@@ -323,7 +323,7 @@ export function useCastVote() {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: async ({ questionId, option }: { questionId: string; option: string }) => {
-      await api.post<{ ok: true }>(`/votes/${questionId}`, { option });
+      await api.post<{ ok: true }>("/votes/cast", { question_id: questionId, option });
       const map = readLocalVotes();
       map[questionId] = option;
       writeLocalVotes(map);

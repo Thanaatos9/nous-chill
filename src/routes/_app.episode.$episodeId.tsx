@@ -656,7 +656,6 @@ function ReviewPanel({
         <Stars value={displayedReview.rating} />
         <Field label="Moment préféré">{displayedReview.favorite_moment}</Field>
         <Field label="Moment gênant">{displayedReview.awkward_moment}</Field>
-        <Field label="Citation drôle">{displayedReview.funny_quote}</Field>
         <Field label="Note de bas de page" large>{displayedReview.summary}</Field>
         <Field label="On le referait ?">
           {displayedReview.would_redo
@@ -703,11 +702,6 @@ function ReviewPanel({
         label="Moment gênant"
         value={draft.awkward_moment}
         onChange={(v) => setDraft({ ...draft, awkward_moment: v })}
-      />
-      <Input
-        label="Citation drôle"
-        value={draft.funny_quote}
-        onChange={(v) => setDraft({ ...draft, funny_quote: v })}
       />
       <label className="block text-xs uppercase tracking-wider text-muted-foreground mb-1 mt-3">
         On le referait ?

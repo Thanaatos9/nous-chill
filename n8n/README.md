@@ -24,7 +24,8 @@ Importable workflow scaffolds for the webhooks and automations.
    1. `auth.verify.json`, `auth.me.json`, `auth.logout.json`
    2. `episodes.list.json`, `episodes.create.json`, `episodes.reviews.list.json`, `episodes.reviews.upsert.json`, `episodes.comments.list.json`, `episodes.comments.create.json`
    3. `ideas.list.json`, `ideas.create.json`, `ideas.vote.json`, `ideas.status.json`
-   4. `votes.list.json`, `votes.cast.json`
+   4. `votes.api.json` (handles both `GET /votes` and `POST /votes/:question_id` —
+      `votes.list.json`/`votes.cast.json` are obsolete stubs, do not import them)
    5. `synthese.get.json`
    6. `auto.cron-friday-relance.json`, `auto.trigger-review-complete.json`,
       `auto.cron-season-end.json`, `auto.generate-synthese.json`
@@ -86,6 +87,41 @@ PATCH /ideas/:id/status { status: "voting" | "selected" | "scheduled" | "done" }
 ```
 
 `likes` and `dislikes` are serialized JSON strings. The workflows parse/stringify them automatically.
+
+## Votes (La Décision)
+
+`votes.api.json` is a single workflow that answers both `GET /votes` and
+`POST /votes/:question_id` (the two-route `votes.list.json`/`votes.cast.json`
+files are leftover placeholders — never import them, they always return an
+empty list).
+
+Open the **Votes API Logic** code node after importing and:
+
+1. Replace `AIRTABLE_PAT: "REDACTED_SET_IN_N8N"` with your real Airtable PAT
+   (this node reads the token from the code, not from `$env`).
+2. Confirm `AIRTABLE_BASE_ID` matches your base.
+
+Create two Airtable tables:
+
+```txt
+VoteQuestions
+  id        Formula        "vq_" & RECORD_ID()
+  question  Single line text
+  options   Long text       JSON array, e.g. ["Oui, on continue ❤️","Non, c'est fini 💔"]
+  active    Checkbox
+
+VoteResults
+  question  Link → VoteQuestions
+  option    Single line text
+  count     Number
+```
+
+Add one `VoteQuestions` row for the decision (`active` checked, `options` set
+to the exact two strings the frontend uses — see `OUI`/`NON` constants in
+`src/routes/_app.decision.tsx`). Its formula `id` must match
+`DECISION_QUESTION_ID` in `src/config.ts` (currently `vq_recS2IgtXXxZqstce`).
+If you create a fresh record, copy its generated `id` value into
+`DECISION_QUESTION_ID`.
 
 ## Episode Comments
 
